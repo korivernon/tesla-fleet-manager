@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   </head>
   <body>
-    <div class="mx-3">
+    <div class="mx-3 my-3">
         <div class="container">
             Note: This site does not collect any personal information. It only Routes
             information using the Tesla API. 
@@ -21,15 +21,26 @@
             the link from Tesla's website. <em>Page Not Found will be shown at success.</em>
             <br><br>
             If you already have your token, insert the token below Tesla Account Email.
-            <form action="/" method="post">
-                <br>
-                Tesla Account Email:
-                <input type="email" name="email"><br>
-                Tesla Token:
-                <input type="token" name="token">
-                <br>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+            <br>
+            <div class="card text-white bg-dark">
+              <div class="card-body">
+                <h5 class="card-title">Log Into Tesla Account</h5>
+                <p class="card-text">
+                  <form action="/" method="post">
+                    <br>
+                    Tesla Account Email:
+                    <input type="email" name="email"><br>
+                    Tesla Token:
+                    <input type="token" name="token">
+                    <br>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+                </p>
+                </div>
+              </div>
+            </div>
+            </div>
+            
             {% for item in messages %}
               <p>{{item}}</p>
             {% endfor %}
