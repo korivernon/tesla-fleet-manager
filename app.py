@@ -1,10 +1,11 @@
+from fileinput import filename
 from flask import *
 from vehicle_access import *
 import teslapy
 from tesla_email import *
 import time
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
 @app.route('/', methods=["POST", "GET"])
 @app.route('/index', methods=["POST", "GET"])
@@ -40,6 +41,11 @@ def index():
                 messages.append(msg)
     return render_template('index.html',messages = messages)
 
+# @app.route('/img/<fname>')
+# def images(fname):
+#     return send_from_directory('static', filename='images/models/' + fname)
+#     # return app.redirect(app.url_for('static', filename='images/models/' + fname), code=301)
+
 @app.route('/dashboard/<email>/', methods=["POST", "GET"])
 def dashboard(email):
     messages = []
@@ -70,8 +76,6 @@ def dashboard(email):
                 if action == "lock":
                     print("locking", vehicle["display_name"])
                     vehicle.command("LOCK")
-                    time.sleep(5)
-                    render_template('dashboard.html', data=out_str, messages=messages, email=email)
                 elif action == "unlock":
                     print("unlocking:",vehicle["display_name"])
                     vehicle.command("UNLOCK")
@@ -84,9 +88,10 @@ def dashboard(email):
                     send_email_with_data(email_information)
             else:
                 continue
+    model_names = vehicle_names(tesla)
     for name,stats in vehicles.items():
         out_str.append( (str(name), stats) )
-    return render_template('dashboard.html', data=out_str, messages=messages, email=email)
+    return render_template('dashboard.html', data=out_str, messages=messages, email=email, model_names = model_names)
 
 @app.route('/logout/<email>/')
 def logout(email):

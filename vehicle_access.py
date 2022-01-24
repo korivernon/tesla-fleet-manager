@@ -25,13 +25,63 @@ def get_login_url(email):
 def fetch_login_object(email, auth_token):
     tesla = teslapy.Tesla(email)
     return tesla.fetch_token(authorization_response=auth_token)
-    
-def email_data(tesla, names=[]):
-    ts = int('1284101485')
 
-    # if you encounter a "year is out of range" error the timestamp
-    # may be in milliseconds, try `ts /= 1000` in that case
-    print(datetime.utcfromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S'))
+
+def vehicle_names(tesla, names=[]):
+    vehicles = tesla.vehicle_list() #grab the vehicle object
+    
+    vehicle_name_list = []
+
+    for vehicle in vehicles:
+        ivd = {}
+        try:
+            data = vehicle.api('VEHICLE_DATA')['response']
+        except:
+            print("Error for" , vehicle["display_name"])
+            continue
+        data = dict(data)
+
+        print(data.keys())
+
+        #get vehicle name
+        v_name = data["display_name"]
+        
+        # check against list of vehicle names
+        if names == []:
+            pass
+        elif v_name not in names:
+            continue
+        ivd["name"] = v_name
+
+        v_vin = data["vin"]
+        ivd["vin"] = v_vin
+
+        #car settings
+        car = data["vehicle_config"]
+        v_type = car["car_type"]
+        ivd["model_type"] = v_type
+
+        v_color = car["exterior_color"]
+        ivd["color"] = v_color
+
+        v_trim = car["trim_badging"]
+        ivd["trim"] = v_trim
+
+        v_wheel = car["wheel_type"]
+        ivd["rim"] = v_wheel
+
+        car_name = ivd["vin"][3] + ivd["trim"] + ivd["color"] + ivd["rim"]
+        print(car_name)
+        # add vehicle data
+        vehicle_name_list.append(car_name)
+    return vehicle_name_list
+
+def email_data(tesla, names=[]):
+    # ts = int('1284101485')
+
+    # # if you encounter a "year is out of range" error the timestamp
+    # # may be in milliseconds, try `ts /= 1000` in that case
+    # print(datetime.utcfromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S'))
     
     vehicles = tesla.vehicle_list() #grab the vehicle object
     

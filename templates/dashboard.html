@@ -24,10 +24,40 @@
             <br>
             <input type="submit" name="sendemail" value="sendemail">
             <hr>
+            <h5>Status of Vehicle</h5>
             {% for vehicle in data %}
+            <div class="card">
+              <h5 class="card-header">{{vehicle[0]}}</h5>
+              <div class="card-body">
+                <h5 class="card-title">Vehicle Settings</h5>
+                <p class="card-text">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      {% for key, val in vehicle[1].items() %}
+                      {{key}}: {{val}}
+                      <br>
+                      {% endfor %}
+                    </div>
+                    <div class="col-sm-6">
+                      
+                      <!-- <img src="{{ url_for('static', filename ='images/models/S85dMetallicBlackCharcoal21.png') }}" alt=""> -->
+                      <!-- <img src="/static/images/models/{{ model_names[loop.index - 1] }}.png" alt=""> -->
+                       {{ model_names[loop.index - 1] }}
+                    </div>
+                  </div>
+                  
+                </p>
+                <input class="btn btn-primary" type="submit" name="lock_{{vehicle[0]}}" value="lock">
+                <input class="btn btn-primary" type="submit" name="unlock_{{vehicle[0]}}" value="unlock">
+                <input class="btn btn-primary" type="submit" name="remotestart_{{vehicle[0]}}" value="remotestart">
+              </div>
+            </div>
+            <br><br>
+            {% endfor %}
+
+            <!-- {% for vehicle in data %}
             <h3>{{vehicle[0]}}</h3>
             <div class="row">
-              
               <p>
                 <div class="col-sm-4">
                   <h5>Status of Vehicle</h5>
@@ -45,7 +75,7 @@
                   </div>
               </p>
             </div>
-            {% endfor %}
+            {% endfor %} -->
             </form>
         </div>
     </div>
