@@ -21,17 +21,13 @@ def index():
         token = request.form.get("token")
         
         tesla = teslapy.Tesla(email)
-
-        fetch = fetch_login_object(email, token)
         if email and token:
-            tesla = fetch
+            tesla = fetch_login_object(email, token)
             print("Branch 1")
             print(tesla.vehicle_list())
-        elif email and not fetch:
+        elif email and not get_login_url(email):
             print("Branch 2")
-            return redirect(url_for('dashboard', email=email))
-            print(tesla.vehicle_list())
-            
+            return redirect(url_for('dashboard', email=email))          
         else:
             print("Branch 3")
             msg = get_login_url(email)
@@ -40,12 +36,6 @@ def index():
             else:
                 messages.append(msg)
     return render_template('index.html',messages = messages)
-
-# @app.route('/img/<fname>')
-# def images(fname):
-#     return send_from_directory('static', filename='images/models/' + fname)
-#     # return app.redirect(app.url_for('static', filename='images/models/' + fname), code=301)
-
 @app.route('/dashboard/<email>/', methods=["POST", "GET"])
 def dashboard(email):
     messages = []

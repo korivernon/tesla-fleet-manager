@@ -35,15 +35,17 @@
                     <br>
                     <button type="submit" class="btn btn-primary">Submit</button>
                   </form>
+                  
+                  {% for item in messages %}
+                    <a href="{{item}}">Click here to login to your Tesla Account</a>
+                  {% endfor %}
                 </p>
                 </div>
               </div>
             </div>
             </div>
             
-            {% for item in messages %}
-              <p>{{item}}</p>
-            {% endfor %}
+            
         </div>
     </div>
       
