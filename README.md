@@ -17,6 +17,6 @@ Run the web app.
 `python3 app.py`
 
 <p align="center">
-  <img src="assets/launch_page.png" width="350" title="hover text">
-  <img src="assets/login_to_tesla.png" width="350">
+  <img src="assets/launch_page.png">
+  <img src="assets/login_to_tesla.png">
 </p>
